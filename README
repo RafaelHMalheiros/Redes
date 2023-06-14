@@ -1,0 +1,49 @@
+Algoritmo de Busca em Largura (BFS):
+
+Pontos Positivos:
+- Encontra a distância mais curta entre dois nós em um grafo não ponderado, o que pode ser útil para medir a proximidade entre pessoas na rede social.
+- Permite identificar conexões diretas entre indivíduos, fornecendo uma lista de amigos ou contatos imediatos.
+- Pode ser usado para encontrar pessoas dentro de um determinado raio, estabelecendo limites para a distância percorrida.
+
+Pontos Negativos:
+- Não considera a influência de conexões intermediárias ou o peso das relações na rede social.
+- Não leva em conta fatores como interesses em comum ou relevância dos contatos para a recomendação de novas conexões.
+- Pode fornecer recomendações muito generalizadas ou limitadas a contatos imediatos.
+
+Algoritmo de Busca em Profundidade (DFS):
+
+Pontos Positivos:
+- Permite explorar diferentes caminhos possíveis para encontrar conexões entre pessoas em uma rede social.
+- Pode ser útil para descobrir grupos ou comunidades de interesse compartilhado.
+- Oferece a possibilidade de recomendar pessoas com base em caminhos alternativos ou conexões indiretas.
+
+Pontos Negativos:
+- Pode explorar caminhos muito longos ou complexos, o que pode levar a recomendações pouco relevantes.
+- Não é eficiente para encontrar a distância mais curta entre dois nós ou determinar a proximidade direta entre indivíduos.
+- Pode resultar em recomendações excessivamente abrangentes ou com foco em nichos específicos.
+
+Algoritmo de Bellman-Ford:
+
+Pontos Positivos:
+- Permite encontrar o caminho mais curto entre dois nós em um grafo ponderado, levando em consideração os pesos das arestas.
+- Pode ser útil para calcular a distância física entre pessoas em uma rede social, considerando fatores geográficos ou de localização.
+- Pode fornecer recomendações com base em proximidade física ou influência geográfica.
+
+Pontos Negativos:
+- Pode não ser tão eficiente quanto outros algoritmos, especialmente em grafos grandes ou densos.
+- Não leva em conta a relevância dos contatos ou a afinidade de interesses para recomendar novas conexões.
+- Pode não capturar aspectos sociais ou emocionais relevantes na recomendação de conexões.
+
+Algoritmo de Dijkstra:
+
+Pontos Positivos:
+- Eficiente para encontrar o caminho mais curto em grafos ponderados com arestas não negativas.
+- Permite calcular a distância entre pessoas em uma rede social com base em fatores como influência ou popularidade.
+- Pode fornecer recomendações personalizadas com base na relevância dos contatos ou em interesses compartilhados.
+
+Pontos Negativos:
+- Não lida bem com grafos que contêm arestas com pesos negativos.
+- Pode não considerar aspectos contextuais ou dinâmicos das relações sociais.
+- A precisão das recomendações depende da qualidade dos pesos atribuídos às arestas e da representatividade dos dados da rede social.
+
+Em resumo, cada algoritmo tem suas vantagens e desvantagens ao calcular a distância entre pessoas em uma rede social e recomendar conexões. A escolha depende dos objetivos específicos da aplicação e das características da rede social em questão.
