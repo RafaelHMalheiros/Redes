@@ -1,4 +1,4 @@
-Algoritmo de Busca em Largura (BFS):
+Algoritmo de Busca em Largura (BFS): O(V + E)
 
 Pontos Positivos:
 - Encontra a distância mais curta entre dois nós em um grafo não ponderado, o que pode ser útil para medir a proximidade entre pessoas na rede social.
@@ -10,7 +10,7 @@ Pontos Negativos:
 - Não leva em conta fatores como interesses em comum ou relevância dos contatos para a recomendação de novas conexões.
 - Pode fornecer recomendações muito generalizadas ou limitadas a contatos imediatos.
 
-Algoritmo de Busca em Profundidade (DFS):
+Algoritmo de Busca em Profundidade (DFS): O(V + E)
 
 Pontos Positivos:
 - Permite explorar diferentes caminhos possíveis para encontrar conexões entre pessoas em uma rede social.
@@ -22,7 +22,7 @@ Pontos Negativos:
 - Não é eficiente para encontrar a distância mais curta entre dois nós ou determinar a proximidade direta entre indivíduos.
 - Pode resultar em recomendações excessivamente abrangentes ou com foco em nichos específicos.
 
-Algoritmo de Bellman-Ford:
+Algoritmo de Bellman-Ford: O(V * E)
 
 Pontos Positivos:
 - Permite encontrar o caminho mais curto entre dois nós em um grafo ponderado, levando em consideração os pesos das arestas.
@@ -34,7 +34,7 @@ Pontos Negativos:
 - Não leva em conta a relevância dos contatos ou a afinidade de interesses para recomendar novas conexões.
 - Pode não capturar aspectos sociais ou emocionais relevantes na recomendação de conexões.
 
-Algoritmo de Dijkstra:
+Algoritmo de Dijkstra: O((V + E) * log(V))
 
 Pontos Positivos:
 - Eficiente para encontrar o caminho mais curto em grafos ponderados com arestas não negativas.
