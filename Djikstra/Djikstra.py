@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 from collections import defaultdict
 from matplotlib.animation import FuncAnimation
+import math
 
 class Graph:
     def __init__(self):
@@ -10,44 +11,45 @@ class Graph:
     def add_edge(self, u, v, weight):
         self.graph.add_edge(u, v, weight=weight)
 
-    def bellman_ford(self, start_vertex):
-        distances = {}
-        predecessors = {}
-        self.graph.nodes[start_vertex]['color'] = 'lightgreen'  # Mark the starting vertex as visited
-        self.graph.nodes[start_vertex]['distance'] = 0  # Assign distance zero to the starting vertex
+    def dijkstra(self, start_vertex):
+        visited = set()
+        distances = defaultdict(lambda: math.inf)
+        distances[start_vertex] = 0
+        self.graph.nodes[start_vertex]['color'] = 'lightgreen'  # Mark the initial vertex as visited
+        self.graph.nodes[start_vertex]['distance'] = 0  # Assign distance zero to the initial vertex
 
-        # List to store the graph states during the Bellman-Ford algorithm
+        # List to store the graph states during Dijkstra's algorithm
         graph_states = [self.graph.copy()]
 
-        distances[start_vertex] = 0  # Add an entry for the starting vertex in the distances dictionary
-        predecessors[start_vertex] = None
+        while len(visited) < len(self.graph.nodes):
+            # Find the vertex with the minimum distance
+            min_distance = math.inf
+            min_vertex = None
+            for v in self.graph.nodes:
+                if v not in visited and distances[v] < min_distance:
+                    min_distance = distances[v]
+                    min_vertex = v
 
-        # Initialize all distances with infinity except the starting vertex
-        for node in self.graph.nodes():
-            if node != start_vertex:
-                distances[node] = float('inf')
+            if min_vertex is None:
+                break
 
-        # Relax edges repeatedly to find the shortest paths
-        for _ in range(len(self.graph.nodes()) - 1):
-            for u, v, edge_data in self.graph.edges(data=True):
-                weight = edge_data['weight']
-                if distances[u] + weight < distances[v]:
-                    distances[v] = distances[u] + weight
-                    predecessors[v] = u
-                    self.graph.nodes[v]['color'] = 'lightgreen'  # Mark the vertex as visited
-                    self.graph.edges[(u, v)]['color'] = 'lightgreen'  # Mark the edge as visited
-                    graph_states.append(self.graph.copy())  # Store the current state of the graph
+            visited.add(min_vertex)
 
-        # Check for negative cycles
-        for u, v, edge_data in self.graph.edges(data=True):
-            weight = edge_data['weight']
-            if distances[u] + weight < distances[v]:
-                raise ValueError("Graph contains negative weight cycle")
+            for neighbor in self.get_neighbors(min_vertex):
+                if neighbor not in visited:
+                    edge_weight = self.graph.edges[(min_vertex, neighbor)]['weight']
+                    new_distance = distances[min_vertex] + edge_weight
+                    if new_distance < distances[neighbor]:
+                        distances[neighbor] = new_distance
+                        self.graph.nodes[neighbor]['color'] = 'lightgreen'  # Mark the vertex as visited
+                        self.graph.edges[(min_vertex, neighbor)]['color'] = 'lightgreen'  # Mark the edge as visited
+                        self.graph.nodes[neighbor]['distance'] = new_distance  # Assign the distance to the vertex
+                        graph_states.append(self.graph.copy())  # Store the current state of the graph
 
-        # Call the visualization function to animate the Bellman-Ford algorithm
-        visualize_bellman_ford_animation(graph_states, distances, predecessors)
+        # Call to visualize Dijkstra's algorithm in animation
+        visualize_dijkstra_animation(graph_states, distances)
 
-        return distances, predecessors
+        return distances
 
     def get_neighbors(self, vertex):
         neighbors = set()
@@ -60,7 +62,7 @@ class Graph:
 
         return neighbors
 
-def visualize_bellman_ford_animation(graph_states, distances, predecessors):
+def visualize_dijkstra_animation(graph_states, distances):
     fig, ax = plt.subplots()
 
     pos = nx.spring_layout(graph_states[0])
@@ -88,16 +90,9 @@ def visualize_bellman_ford_animation(graph_states, distances, predecessors):
             labels[node] = label
         nx.draw_networkx_labels(graph_state, pos, labels=labels, ax=ax)
 
-        # Draw edge labels with weights
-        edge_labels = {}
-        for u, v, edge_attr in graph_state.edges(data=True):
-            if 'weight' in edge_attr:
-                edge_labels[(u, v)] = str(edge_attr['weight'])
-        nx.draw_networkx_edge_labels(graph_state, pos, edge_labels=edge_labels, ax=ax)
+        ax.set_title(f"Step {i+1} of Dijkstra's algorithm")
 
-        ax.set_title(f"Step {i+1} of the Bellman-Ford algorithm")
-
-    # Create the Bellman-Ford animation
+    # Create the animation of Dijkstra's algorithm
     ani = FuncAnimation(fig, update_frame, frames=len(graph_states), interval=1000, repeat=False)
 
     plt.show()
@@ -118,18 +113,13 @@ num_edges = int(input("Enter the number of edges: "))
 print("Enter the edges in the format 'vertex1 vertex2 weight':")
 for _ in range(num_edges):
     u, v, weight = input().split()
-    weight = int(weight)
-    g.add_edge(u, v, weight)
-    g.graph.add_edge(u, v, weight=weight)
+    g.add_edge(u, v, int(weight))
+    g.graph.add_edge(u, v, weight=int(weight))
 
-start_vertex = input("Enter the starting vertex for the Bellman-Ford algorithm: ")
+start_vertex = input("Enter the starting vertex for Dijkstra's algorithm: ")
 
-distances, predecessors = g.bellman_ford(start_vertex)
+distances = g.dijkstra(start_vertex)
 
-print("Distances from the vertex", start_vertex + ":")
+print("Distances from vertex", start_vertex + ":")
 for vertex, distance in distances.items():
     print("Vertex:", vertex, "- Distance:", distance)
-
-print("Predecessors:")
-for vertex, predecessor in predecessors.items():
-    print("Vertex:", vertex, "- Predecessor:", predecessor)
